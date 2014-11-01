@@ -17,7 +17,7 @@ class MessageView : UIView {
     var type: EchoType
     var textContent: UILabel!
     var imageContent: UIImage!
-    var currentEcho!
+    var currentEcho!;
     
     init(mode: MessageMode) {
         bgImageView = UIImageView(image: UIImage(named: "message.png"))
@@ -58,9 +58,12 @@ class MessageView : UIView {
     func setupReadPullingMode() {
         clearMessageView()
         getEcho();
-        if (currentEcho.type == 0){
-            textContent.text = "";"
-        }
+//        if (currentEcho["type"] == 0){
+//            textContent.text = currentEcho.echo_content;
+//        }
+//        else if (currentEcho["type"] == 1){
+//            imageContent.
+//        }
         // Add UITextField/View/UILabel
         // -set editable->false
         
@@ -88,7 +91,7 @@ class MessageView : UIView {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
         let time = formatter.stringFromDate(NSDate());
         
-        parameterz =
+        var parameterz =
             [   "id" : id,
                 "deleted" : keep,
                 "lat" : lat,
@@ -110,7 +113,7 @@ class MessageView : UIView {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
         let time = formatter.stringFromDate(NSDate());
         
-        parameterz =
+        var parameterz =
             [   "id" : id,
                 "deleted" : keep,
                 "lat" : lat,

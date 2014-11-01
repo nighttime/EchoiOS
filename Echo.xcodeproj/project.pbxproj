@@ -90,7 +90,7 @@
 		01862AC21A04A5F900F24D47 /* Echo */ = {
 			isa = PBXGroup;
 			children = (
-				01862B301A04C09600F24D47 /* AlamoFire */,
+				01862B301A04C09600F24D47 /* Alamofire */,
 				01862AE51A04A94E00F24D47 /* Ancillary */,
 				01862AC71A04A5F900F24D47 /* HomeViewController.swift */,
 				01862B341A05265900F24D47 /* SubScrollView.swift */,
@@ -137,13 +137,13 @@
 			name = Ancillary;
 			sourceTree = "<group>";
 		};
-		01862B301A04C09600F24D47 /* AlamoFire */ = {
+		01862B301A04C09600F24D47 /* Alamofire */ = {
 			isa = PBXGroup;
 			children = (
 				01862B311A04C0AE00F24D47 /* Alamofire.h */,
 				01862B321A04C0AE00F24D47 /* Alamofire.swift */,
 			);
-			name = AlamoFire;
+			name = Alamofire;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
