@@ -30,9 +30,9 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         locationManager.delegate = self;
         locationManager.startUpdatingLocation();
         
-        let bgImageView = UIImageView(image: UIImage(named: "splash.png"))
-        bgImageView.backgroundColor = UIColor(red: 0.15, green: 0.02, blue: 0.5, alpha: 1.0)
-        self.view.addSubview(bgImageView)
+        //let bgImageView = UIImageView(image: UIImage(named: "splash.png"))
+        //bgImageView.backgroundColor = UIColor(red: 0.15, green: 0.02, blue: 0.5, alpha: 1.0)
+        //self.view.addSubview(bgImageView)
         
         mainScroller.frame = self.view.bounds
         mainScroller.contentSize = CGSizeMake(self.view.viewWidth, 3 * self.view.viewHeight)
@@ -60,6 +60,14 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         
         //Move to the middle pane
         mainScroller.contentOffset = CGPointMake(0.0, self.view.viewHeight);
+        
+        
+        // Mine
+        self.view.backgroundColor = UIColor(red: (46.0/255), green: (46.0/255), blue: (46.0/255), alpha: 1.0)
+        
+        let arrows = SwipeHintArrowsView(type: .Green)
+        arrows.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidX(self.view.bounds) + self.view.viewHeight)
+        mainScroller.addSubview(arrows)
     }
 
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
@@ -72,7 +80,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
             // Do nothing or maybe a shaking animation???
         }
         else{ //Down swipe
-            self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
+            //self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
         }
         // figure out what the user just did
         // if "home" (ie are they returning from echoing a downloaded message or cancelling a written message?)
@@ -86,7 +94,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         // do message.textField.resignFirstResponder()
-            self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
+            //self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
     }
     
     override func didReceiveMemoryWarning() {
