@@ -27,3 +27,8 @@ enum MessageMode {
     case ReadMessagePaused
     case WriteMessage
 }
+
+enum EchoType{
+    case Write
+    case Read
+}

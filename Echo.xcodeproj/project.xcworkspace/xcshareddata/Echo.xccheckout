@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>D476AF0E-C4EC-4A7C-A47D-36C76A89A645</string>
+	<string>D9F12211-85A9-4F3E-A1BF-31D07139A4AB</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Echo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>08B6A8ADA0E7432B9E3B7B42C80618058C7A8A90</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Echo</string>
+			<string>EchoiOS</string>
 		</dict>
 	</array>
 </dict>

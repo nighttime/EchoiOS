@@ -11,6 +11,9 @@ import UIKit
 class HomeViewController: UIViewController, UIScrollViewDelegate {
 
     let mainScroller = UIScrollView();
+    let lastPage: Int = 1;
+    var bottomWrite: MessageView!;
+    var topRead: MessageView!;
     
     // Vars for both message dummies (readPaused and write)
     
@@ -28,14 +31,39 @@ class HomeViewController: UIViewController, UIScrollViewDelegate {
         mainScroller.showsVerticalScrollIndicator = false
         self.view.addSubview(mainScroller)
         
-        // Add details to "center" page of scroller
-        // - should have label(s) for instructions / image instead?
-        
         // Add Message Views to top and bottom view--configure appropriately
+        var bottomWrite = MessageView(mode: .WriteMessage);
+        bottomWrite.frame = self.view.frame;
+        bottomWrite.frame = CGRectOffset(bottomWrite.frame, 0, 2 * self.view.viewHeight);
+        mainScroller.addSubview(bottomWrite);
+        self.bottomWrite = bottomWrite;
+        
+        // Center view is a transparent UIView
+        var centerPane = UIView(frame: CGRect(origin: CGPoint(x: 0.0, y: self.view.viewHeight), size: CGSize(width: self.view.viewWidth, height: self.view.viewHeight)));
+        centerPane.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0);
+        mainScroller.addSubview(centerPane);
+        
+        var topRead = MessageView(mode: .ReadMessagePaused);
+        topRead.frame = self.view.frame;
+        mainScroller.addSubview(topRead);
+        self.topRead = topRead;
+        
+        //Move to the middle pane
+        mainScroller.contentOffset = CGPointMake(0.0, self.view.viewHeight);
     }
 
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
-        let page = scrollView.contentOffset.y / scrollView.viewHeight;
+        let page:Int = (Int)(scrollView.contentOffset.y / scrollView.viewHeight);
+        //Up swipe
+        if (page == 0){
+            self.topRead.mode = .ReadMessagePull;
+        }
+        else if (page == 1){
+            // Do nothing or maybe a shaking animation???
+        }
+        else{ //Down swipe
+            self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
+        }
         // figure out what the user just did
         // if "home" (ie are they returning from echoing a downloaded message or cancelling a written message?)
         //   maybe keep a prevPage variable and compare to page?
@@ -43,10 +71,12 @@ class HomeViewController: UIViewController, UIScrollViewDelegate {
         //   overlay SubScrollView and set visible dummy.hidden->true
         // else if "writing a new message"
         //   do message.textField.becomeFirstResponder()
+        
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         // do message.textField.resignFirstResponder()
+            self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
     }
     
     override func didReceiveMemoryWarning() {
