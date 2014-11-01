@@ -9,13 +9,15 @@
 
 import UIKit
 import CoreLocation
-import Alamofire
 
 class MessageView : UIView {
     
     var mode: MessageMode
     var bgImageView: UIImageView
     var type: EchoType
+    var textContent: UILabel!
+    var imageContent: UIImage!
+    var currentEcho!
     
     init(mode: MessageMode) {
         bgImageView = UIImageView(image: UIImage(named: "message.png"))
@@ -55,6 +57,10 @@ class MessageView : UIView {
     
     func setupReadPullingMode() {
         clearMessageView()
+        getEcho();
+        if (currentEcho.type == 0){
+            textContent.text = "";"
+        }
         // Add UITextField/View/UILabel
         // -set editable->false
         
@@ -78,7 +84,7 @@ class MessageView : UIView {
         var location: CLLocationCoordinate2D = locationManager.location.coordinate;
         let lat:Double = location.latitude;
         let lon:Double = location.longitude;
-        let formatter = NSDateFormatter()
+        let formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
         let time = formatter.stringFromDate(NSDate());
         
@@ -119,11 +125,9 @@ class MessageView : UIView {
     }
     
     func getEcho(){
-        var echoData;
         Alamofire.request(.GET, "http://echo2.me/get_echo")
-                .responseJSON{(_, _, JSON, _) in echoData = JSON
+                .responseJSON{(_, _, JSON, _) in currentEcho = JSON
         }
-        
     }
     
     
