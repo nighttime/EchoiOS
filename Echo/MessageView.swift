@@ -8,6 +8,8 @@
 //
 
 import UIKit
+import CoreLocation
+import Alamofire
 
 class MessageView : UIView {
     
@@ -37,9 +39,9 @@ class MessageView : UIView {
         super.didMoveToSuperview()
         self.addSubview(bgImageView)
         switch mode {
-        case .ReadMessagePaused: setupReadPullingMode();
-        case .ReadMessagePull: setupReadPausedMode();
-        case .WriteMessage: setupWriteMode();
+            case .ReadMessagePaused: setupReadPullingMode();
+            case .ReadMessagePull: setupReadPausedMode();
+            case .WriteMessage: setupWriteMode();
         }
     }
     
@@ -70,16 +72,57 @@ class MessageView : UIView {
     
     //HTTP REQUEST METHODS
     
-    //0 to kill, 1 to keep
+    //1 to kill, 0 to keep
     func sendEchoBack(keep:Int){
+        //id, deleted, lat, long, datetime, echo_count (updated)
+        var location: CLLocationCoordinate2D = locationManager.location.coordinate;
+        let lat:Double = location.latitude;
+        let lon:Double = location.longitude;
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
+        let time = formatter.stringFromDate(NSDate());
         
+        parameterz =
+            [   "id" : id,
+                "deleted" : keep,
+                "lat" : lat,
+                "lon" : lon,
+                "datetime" : time,
+//                "type":
+                "echo_count" : echo_count + 1
+            ]
+        
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);
     }
     
     func sendNewEcho(){
+        //id, deleted, lat, long, datetime, echo_count (updated)
+        var location: CLLocationCoordinate2D = locationManager.location.coordinate;
+        let lat:Double = location.latitude;
+        let lon:Double = location.longitude;
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
+        let time = formatter.stringFromDate(NSDate());
         
+        parameterz =
+            [   "id" : id,
+                "deleted" : keep,
+                "lat" : lat,
+                "lon" : lon,
+                "datetime" : time,
+                "echo_count" : 1,
+//                "type":
+                "echo_content": echo_content
+        ]
+        
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);
     }
     
     func getEcho(){
+        var echoData;
+        Alamofire.request(.GET, "http://echo2.me/get_echo")
+                .responseJSON{(_, _, JSON, _) in echoData = JSON
+        }
         
     }
     

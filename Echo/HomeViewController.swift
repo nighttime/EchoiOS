@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import CoreLocation
 
-class HomeViewController: UIViewController, UIScrollViewDelegate {
+let locationManager = CLLocationManager();
+
+class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
+
 
     let mainScroller = UIScrollView();
     let lastPage: Int = 1;
@@ -19,6 +23,12 @@ class HomeViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Configure locationManager
+        locationManager.requestWhenInUseAuthorization();
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        locationManager.delegate = self;
+        locationManager.startUpdatingLocation();
         
         let bgImageView = UIImageView(image: UIImage(named: "splash.png"))
         bgImageView.backgroundColor = UIColor(red: 0.15, green: 0.02, blue: 0.5, alpha: 1.0)

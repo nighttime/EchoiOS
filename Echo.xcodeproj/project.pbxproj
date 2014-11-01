@@ -17,6 +17,7 @@
 		01862AE91A04B5F700F24D47 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862AE81A04B5F700F24D47 /* MessageView.swift */; };
 		01862B331A04C0AE00F24D47 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862B321A04C0AE00F24D47 /* Alamofire.swift */; };
 		01862B351A05265900F24D47 /* SubScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862B341A05265900F24D47 /* SubScrollView.swift */; };
+		0A5FB3C81A056045001ADC85 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A5FB3C71A056045001ADC85 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		01862B311A04C0AE00F24D47 /* Alamofire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alamofire.h; sourceTree = "<group>"; };
 		01862B321A04C0AE00F24D47 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		01862B341A05265900F24D47 /* SubScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubScrollView.swift; sourceTree = "<group>"; };
+		0A5FB3C71A056045001ADC85 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A5FB3C81A056045001ADC85 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +71,7 @@
 		01862AB71A04A5F900F24D47 = {
 			isa = PBXGroup;
 			children = (
+				0A5FB3C71A056045001ADC85 /* CoreLocation.framework */,
 				01862AC21A04A5F900F24D47 /* Echo */,
 				01862AD81A04A5F900F24D47 /* EchoTests */,
 				01862AC11A04A5F900F24D47 /* Products */,
