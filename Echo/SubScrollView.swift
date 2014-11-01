@@ -34,7 +34,7 @@ class SubScrollView : UIView, UIScrollViewDelegate {
         
         //Initialize ScrollView elements
         // Topview is transparent
-        var topPane = UIView(frame: CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: self.frame.width, height: self.frame.height)));
+        var topPane = UIView(frame: CGRect(CGPoint(0, 0), size: CGSize(width: self.frame.width, height: self.frame.height)));
         topPane.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0);
         subScroller.addSubview(topPane);
         viewPages.append(topPane);

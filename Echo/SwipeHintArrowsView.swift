@@ -39,15 +39,19 @@ class SwipeHintArrowsView : UIView {
     
     override func didMoveToSuperview() {
         var imageName: String
-        if type == .Red {
+        if type == .Green {
+            arrow1.center = CGPointMake(CGRectGetMidX(self.bounds), self.viewHeight - CGRectGetMidY(arrow1.bounds))
+            arrow2.center = CGPointMake(arrow1.center.x, arrow1.center.y - 10)
+            arrow3.center = CGPointMake(arrow2.center.x, arrow2.center.y - 10)
+        } else {
             arrow1.image = UIImage(named: "arrowRed.png")
             arrow2.image = UIImage(named: "arrowRed.png")
             arrow3.image = UIImage(named: "arrowRed.png")
+            arrow1.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(arrow1.bounds))
+            arrow2.center = CGPointMake(arrow1.center.x, arrow1.center.y + 10)
+            arrow3.center = CGPointMake(arrow2.center.x, arrow2.center.y + 10)
         }
         
-        arrow1.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds))
-        arrow2.center = CGPointMake(arrow1.center.x, arrow1.center.y - 10)
-        arrow3.center = CGPointMake(arrow2.center.x, arrow2.center.y - 10)
         self.addSubview(arrow1)
         self.addSubview(arrow2)
         self.addSubview(arrow3)
@@ -96,14 +100,6 @@ class SwipeHintArrowsView : UIView {
     }
     
 }
-
-
-
-
-
-
-
-
 
 
 

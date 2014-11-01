@@ -22,7 +22,7 @@ class MessageView : UIView {
     init(mode: MessageMode) {
         bgImageView = UIImageView(image: UIImage(named: "message.png"))
         self.mode = mode
-        switch mode{
+        switch mode {
         case .ReadMessagePaused:
             self.type = .Read;
         case .ReadMessagePull:
@@ -58,9 +58,13 @@ class MessageView : UIView {
     func setupReadPullingMode() {
         clearMessageView()
         getEcho();
-        /*if (currentEcho.type == 0){
-            textContent.text = "";"
+        /*if (currentEcho["type"] == 0){
+            textContent.text = currentEcho.echo_content;
+        }
+        else if (currentEcho["type"] == 1){
+            imageContent.
         }*/
+        
         // Add UITextField/View/UILabel
         // -set editable->false
         
@@ -85,17 +89,18 @@ class MessageView : UIView {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
         let time = formatter.stringFromDate(NSDate());
         
-        /*parameterz =
-            [   "id" : id,
-                "deleted" : keep,
-                "lat" : lat,
-                "lon" : lon,
-                "datetime" : time,
-//                "type":
-                "echo_count" : echo_count + 1
-            ]
+
+//        var parameterz =
+//            [   "id" : id,
+//                "deleted" : keep,
+//                "lat" : lat,
+//                "lon" : lon,
+//                "datetime" : time,
+////                "type":
+//                "echo_count" : echo_count + 1
+//            ]
         
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);*/
+//        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);*/
     }
     
     func sendNewEcho(){
@@ -107,18 +112,19 @@ class MessageView : UIView {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
         let time = formatter.stringFromDate(NSDate());
         
-        /*parameterz =
-            [   "id" : id,
-                "deleted" : keep,
-                "lat" : lat,
-                "lon" : lon,
-                "datetime" : time,
-                "echo_count" : 1,
-//                "type":
-                "echo_content": echo_content
-        ]
-        
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);*/
+
+//        var parameterz =
+//            [   "id" : id,
+//                "deleted" : keep,
+//                "lat" : lat,
+//                "lon" : lon,
+//                "datetime" : time,
+//                "echo_count" : 1,
+////                "type":
+//                "echo_content": echo_content
+//        ]
+//        
+//        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);*/
     }
     
     func getEcho(){
