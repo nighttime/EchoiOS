@@ -14,25 +14,14 @@ class MessageView : UIView {
     
     var mode: MessageMode
     var bgImageView: UIImageView
-    var type: EchoType
-    var textContent: UILabel!
     var imageContent: UIImage!
-    var currentEcho!;
+    var currentEcho:Dictionary<String,Any>
     
     init(mode: MessageMode) {
         bgImageView = UIImageView(image: UIImage(named: "message.png"))
-        self.mode = mode
-        switch mode{
-        case .ReadMessagePaused:
-            self.type = .Read;
-        case .ReadMessagePull:
-            self.type = .Read;
-        case .WriteMessage:
-            self.type = .Write;
-        }
         super.init(frame: bgImageView.bounds)
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -41,9 +30,9 @@ class MessageView : UIView {
         super.didMoveToSuperview()
         self.addSubview(bgImageView)
         switch mode {
-            case .ReadMessagePaused: setupReadPullingMode();
-            case .ReadMessagePull: setupReadPausedMode();
-            case .WriteMessage: setupWriteMode();
+        case .ReadMessagePaused: setupReadPullingMode();
+        case .ReadMessagePull: setupReadPausedMode();
+        case .WriteMessage: setupWriteMode();
         }
     }
     
@@ -57,32 +46,28 @@ class MessageView : UIView {
     
     func setupReadPullingMode() {
         clearMessageView()
-        getEcho();
-//        if (currentEcho["type"] == 0){
-//            textContent.text = currentEcho.echo_content;
-//        }
-//        else if (currentEcho["type"] == 1){
-//            imageContent.
-//        }
-        // Add UITextField/View/UILabel
-        // -set editable->false
-        
-        //getEcho, set things up
-        
+        getEchoAndUpdateView();
     }
     
     func setupWriteMode() {
         clearMessageView()
         // Add UITextField and/or pic field
         
-        sendNewEcho();
+        //        sendNewEcho();
         
+    }
+    
+    func uploadImageAndExitView(imageFile: NSData, parameters: Dictionary<String,Any>){
+        var path:String
+        Alamofire.upload(.POST, "http://localhost:3000/echoPost/uploads", imageFile).responseJSON{(request, response, JSON, error) in
+            
+        }
     }
     
     //HTTP REQUEST METHODS
     
     //1 to kill, 0 to keep
-    func sendEchoBack(keep:Int){
+    func sendEchoBack(keep:Bool){
         //id, deleted, lat, long, datetime, echo_count (updated)
         var location: CLLocationCoordinate2D = locationManager.location.coordinate;
         let lat:Double = location.latitude;
@@ -91,17 +76,22 @@ class MessageView : UIView {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
         let time = formatter.stringFromDate(NSDate());
         
-        var parameterz =
-            [   "id" : id,
-                "deleted" : keep,
-                "lat" : lat,
-                "lon" : lon,
-                "datetime" : time,
-//                "type":
-                "echo_count" : echo_count + 1
-            ]
+        var id: Int
+        if keep {id = 0}
+        else {id = 1}
         
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);
+        var parameterz =
+        [  "id" : currentEcho["id"],
+            "deleted" : keep,
+            "lat" : lat,
+            "lon" : lon,
+            "datetime" : time,
+            "type": currentEcho["contentType"],
+            "echo_count": (Int)currentEcho["id"] + 1 ]
+        
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{
+            //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
+        }
     }
     
     func sendNewEcho(){
@@ -114,22 +104,36 @@ class MessageView : UIView {
         let time = formatter.stringFromDate(NSDate());
         
         var parameterz =
-            [   "id" : id,
-                "deleted" : keep,
-                "lat" : lat,
-                "lon" : lon,
-                "datetime" : time,
-                "echo_count" : 1,
-//                "type":
-                "echo_content": echo_content
+        [   "lat" : lat,
+            "lon" : lon,
+            "datetime" : time,
+            "echo_count" : 1,
+            "type": contentType
+            //"echo_content": echo_content
         ]
         
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz,encoding: .JSON);
+        //IF THERE IS AN IMAGE, add the content in uploadImageAndExitView
+        if (){
+            let imageData: NSData = UIImageJPEGRepresentation(imageContent, 1.0);
+            uploadImageAndExitView(imageData, parameterz)
+            return //Above function exits the view for us
+        }
+        else{
+            echoContent = textContent.text
+        }
+        
+        
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{
+            //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
+        }
     }
     
-    func getEcho(){
+    func getEchoAndUpdateView(){
         Alamofire.request(.GET, "http://echo2.me/get_echo")
-                .responseJSON{(_, _, JSON, _) in currentEcho = JSON
+            .responseJSON{(_, _, JSON, _) in
+                currentEcho = JSON
+                console.log(currentEcho)
+                //BASED ON currentEcho, UPDATE THE VIEWS
         }
     }
     
