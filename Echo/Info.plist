@@ -2,6 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ArcherPro-Light.otf</string>
+		<string>ArcherPro-XLight.otf</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We would like to echolocate your echoes.</string>
 	<key>CFBundleDevelopmentRegion</key>

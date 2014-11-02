@@ -33,6 +33,7 @@ class SubScrollView : UIView, UIScrollViewDelegate {
         subScroller.contentOffset = CGPointMake(0, self.viewHeight)
         subScroller.pagingEnabled = true
         subScroller.showsVerticalScrollIndicator = false
+        subScroller.delegate = self
         self.addSubview(subScroller)
         
         messageView.center = CGPointMake(messageCenter.x, messageCenter.y + self.viewHeight)
@@ -48,25 +49,38 @@ class SubScrollView : UIView, UIScrollViewDelegate {
         
         upArrows.animate()
         downArrows.animate()
+        
+        if messageView.mode == .WriteMessage {
+            messageView.setupWriteMode()
+        }
     }
     
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
         let page = (Int)(scrollView.contentOffset.y / scrollView.viewHeight)
-//        if page == 0 {
-//            switch messageView.mode {
-//                case .ReadMessagePull, .ReadMessagePaused:
-//                    messageView.sendEchoBack(1)
-//                case .WriteMessage:
-//                    messageView.sendNewEcho()
-//            }
-//        } else if page == 2 {
-//            switch messageView.mode {
-//                case .ReadMessagePull, .ReadMessagePaused:
-//                    messageView.sendEchoBack(0);
-//                case .WriteMessage:
-//                    messageView.removeFromSuperview();
-//            }
-//        }
+        var i = 0
+        if page == 0 {
+            switch messageView.mode {
+                case .ReadMessagePull, .ReadMessagePaused:
+                    //messageView.sendEchoBack(true)
+                    i++
+                case .WriteMessage:
+                    //messageView.sendNewEcho()
+                i++
+            }
+        } else if page == 2 {
+            switch messageView.mode {
+                case .ReadMessagePull, .ReadMessagePaused:
+                    messageView.sendEchoBack(false);
+                case .WriteMessage:
+                    messageView.removeFromSuperview();
+            }
+        }
+    }
+    
+    
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        messageView.textContent.resignFirstResponder()
     }
 
 }

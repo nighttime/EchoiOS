@@ -10,7 +10,7 @@
 import UIKit
 import CoreLocation
 
-class MessageView : UIView {
+class MessageView : UIView, UITextFieldDelegate {
     
     var mode: MessageMode
     var bgImageView: UIImageView
@@ -34,31 +34,52 @@ class MessageView : UIView {
         self.addSubview(bgImageView)
         
         let inset: CGFloat = 10
-        textContent = UITextField(frame: CGRectMake(inset, 150 + inset, self.viewWidth - (2 * inset), self.viewHeight - 300 - (2 * inset)))
-        
-        
+        textContent = UITextField(frame: CGRectMake(inset, 70 + inset, self.viewWidth - (2 * inset), self.viewHeight - 140 - (2 * inset)))
+        textContent.font = UIFont(name: ArcherLight, size: 20)
+        textContent.textAlignment = .Center
+        textContent.textColor = UIColor(red: (138.0/255), green: (217.0/255), blue: (13.0/255), alpha: 1.0)
+        textContent.layer.shadowColor = UIColor.blackColor().CGColor
+        textContent.layer.shadowOpacity = 0.4
+        textContent.layer.shadowRadius = 3
+        textContent.layer.shadowOffset = CGSizeMake(0, 0)
         switch mode {
-        case .ReadMessagePaused: setupReadPullingMode();
-        case .ReadMessagePull: setupReadPausedMode();
-        case .WriteMessage: setupWriteMode();
+        case .ReadMessagePaused:
+            textContent.text = "Pull to read an echo."
+        case .ReadMessagePull:
+            textContent.text = "Listening for echoes..."
+        case .WriteMessage:
+            textContent.text = "Echo your own message."
         }
+        textContent.borderStyle = .None
+        
+        self.addSubview(textContent)
     }
     
     func setupReadPausedMode() {
-        clearMessageView()
-        var label = UILabel(frame: CGRectMake(self.center.x, self.center.y, 300, 100))
-        label.text = "Pull to get an echo."
-        self.addSubview(label);
+        //clearMessageView()
     }
     
     func setupReadPullingMode() {
-        clearMessageView()
+        //clearMessageView()
         getEchoAndUpdateView();
     }
     
     func setupWriteMode() {
-        clearMessageView()
-        // Add UITextField and/or pic field
+        //clearMessageView()
+        UIView.animateWithDuration(0.15, delay: 0.0, options: (.CurveEaseOut), animations: {
+            self.textContent.alpha = 0.0
+            }, completion: {done in
+                self.textContent.text = ""
+                self.textContent.alpha = 1.0
+                self.textContent.becomeFirstResponder()
+        })
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        if mode == .WriteMessage {
+            return true
+        }
+        return false
     }
     
     func uploadImageAndExitView(imageFile: NSData, parameters: Dictionary<String,Any>){
@@ -68,10 +89,8 @@ class MessageView : UIView {
 //        }
     }
     
-    //HTTP REQUEST METHODS
     
     func sendEchoBack(keep:Bool){
-        //id, deleted, lat, long, datetime, echo_count (updated)
         var location: CLLocationCoordinate2D = locationManager.location.coordinate;
         let lat:Double = location.latitude;
         let lon:Double = location.longitude;
@@ -93,9 +112,9 @@ class MessageView : UIView {
             "echo_count": ((currentEcho["id"] as Int) + 1)
         ]
         
-//        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{(request, response, data, error) in
-//            //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
-//        }
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{(request, response, data, error) in
+            //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
+        }
     }
     
     func sendNewEcho(){
@@ -147,10 +166,11 @@ class MessageView : UIView {
 //        }
     }
     
-    
     func clearMessageView() {
-        for s in bgImageView.subviews {
-            s.removeFromSuperview()
+        for s in self.subviews {
+            if !(s is UIImageView) || !(s is UITextField) {
+                s.removeFromSuperview()
+            }
         }
     }
     

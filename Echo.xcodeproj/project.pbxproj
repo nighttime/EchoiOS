@@ -16,8 +16,9 @@
 		01862ADC1A04A5F900F24D47 /* EchoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862ADB1A04A5F900F24D47 /* EchoTests.swift */; };
 		01862AE71A04AC5200F24D47 /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862AE61A04AC5200F24D47 /* Support.swift */; };
 		01862AE91A04B5F700F24D47 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862AE81A04B5F700F24D47 /* MessageView.swift */; };
-		01862B331A04C0AE00F24D47 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862B321A04C0AE00F24D47 /* Alamofire.swift */; };
 		01862B351A05265900F24D47 /* SubScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01862B341A05265900F24D47 /* SubScrollView.swift */; };
+		019952F81A05D1E40030D829 /* ArcherPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 019952F61A05D1E40030D829 /* ArcherPro-Light.otf */; };
+		019952F91A05D1E40030D829 /* ArcherPro-XLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 019952F71A05D1E40030D829 /* ArcherPro-XLight.otf */; };
 		0A5FB3C81A056045001ADC85 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A5FB3C71A056045001ADC85 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,9 +46,9 @@
 		01862ADB1A04A5F900F24D47 /* EchoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EchoTests.swift; sourceTree = "<group>"; };
 		01862AE61A04AC5200F24D47 /* Support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
 		01862AE81A04B5F700F24D47 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
-		01862B311A04C0AE00F24D47 /* Alamofire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alamofire.h; sourceTree = "<group>"; };
-		01862B321A04C0AE00F24D47 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		01862B341A05265900F24D47 /* SubScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubScrollView.swift; sourceTree = "<group>"; };
+		019952F61A05D1E40030D829 /* ArcherPro-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ArcherPro-Light.otf"; sourceTree = "<group>"; };
+		019952F71A05D1E40030D829 /* ArcherPro-XLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ArcherPro-XLight.otf"; sourceTree = "<group>"; };
 		0A5FB3C71A056045001ADC85 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -92,8 +93,8 @@
 		01862AC21A04A5F900F24D47 /* Echo */ = {
 			isa = PBXGroup;
 			children = (
-				01862B301A04C09600F24D47 /* Alamofire */,
 				01862AE51A04A94E00F24D47 /* Ancillary */,
+				019952FA1A05D1ED0030D829 /* Resources */,
 				01862AC71A04A5F900F24D47 /* HomeViewController.swift */,
 				01862B341A05265900F24D47 /* SubScrollView.swift */,
 				01862AE81A04B5F700F24D47 /* MessageView.swift */,
@@ -140,13 +141,13 @@
 			name = Ancillary;
 			sourceTree = "<group>";
 		};
-		01862B301A04C09600F24D47 /* Alamofire */ = {
+		019952FA1A05D1ED0030D829 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				01862B311A04C0AE00F24D47 /* Alamofire.h */,
-				01862B321A04C0AE00F24D47 /* Alamofire.swift */,
+				019952F61A05D1E40030D829 /* ArcherPro-Light.otf */,
+				019952F71A05D1E40030D829 /* ArcherPro-XLight.otf */,
 			);
-			name = Alamofire;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,6 +231,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				01862ACB1A04A5F900F24D47 /* Main.storyboard in Resources */,
+				019952F91A05D1E40030D829 /* ArcherPro-XLight.otf in Resources */,
+				019952F81A05D1E40030D829 /* ArcherPro-Light.otf in Resources */,
 				01862AD01A04A5F900F24D47 /* LaunchScreen.xib in Resources */,
 				01862ACD1A04A5F900F24D47 /* Images.xcassets in Resources */,
 			);
@@ -252,7 +255,6 @@
 				01862AE91A04B5F700F24D47 /* MessageView.swift in Sources */,
 				012CBD931A0577BA00630B6F /* SwipeHintArrowsView.swift in Sources */,
 				01862B351A05265900F24D47 /* SubScrollView.swift in Sources */,
-				01862B331A04C0AE00F24D47 /* Alamofire.swift in Sources */,
 				01862AC81A04A5F900F24D47 /* HomeViewController.swift in Sources */,
 				01862AC61A04A5F900F24D47 /* AppDelegate.swift in Sources */,
 				01862AE71A04AC5200F24D47 /* Support.swift in Sources */,
@@ -382,7 +384,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Echo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Users/Nick/Dropbox/iCode/Alamofire/**";
 			};
 			name = Debug;
 		};
@@ -392,7 +396,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Echo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Users/Nick/Dropbox/iCode/Alamofire/**";
 			};
 			name = Release;
 		};

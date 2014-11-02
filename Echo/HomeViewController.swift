@@ -12,6 +12,9 @@ import CoreLocation
 let locationManager = CLLocationManager();
 let messageCenter = CGPointMake(CGRectGetMidX(UIScreen.mainScreen().bounds), CGRectGetMidY(UIScreen.mainScreen().bounds) + 20)
 
+let ArcherLight = "ArcherPro-Light"
+let ArcherExtraLight = "ArcherPro-XLight"
+
 class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
 
     var mainScroller: UIScrollView!
@@ -37,10 +40,6 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         titleView.center = CGPointMake(CGRectGetMidX(self.view.bounds), 70)
         self.view.addSubview(titleView)
         
-        let splashView = UIImageView(image: UIImage(named: "splash.png"))
-        splashView.center = messageCenter
-        self.view.addSubview(splashView)
-        
         
         mainScroller = UIScrollView(frame: self.view.bounds)
         mainScroller.contentSize = CGSizeMake(self.view.viewWidth, 3 * self.view.viewHeight)
@@ -49,6 +48,10 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         mainScroller.showsVerticalScrollIndicator = false
         mainScroller.delegate = self
         self.view.addSubview(mainScroller)
+        
+        let splashView = UIImageView(image: UIImage(named: "splash.png"))
+        splashView.center = CGPointMake(messageCenter.x, messageCenter.y + self.view.viewHeight)
+        mainScroller.addSubview(splashView)
         
         // Add Message Views to top and bottom view
         bottomWrite = MessageView(mode: .WriteMessage)
@@ -71,11 +74,6 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
             self.view.addSubview(sub)
             bottomWrite.hidden = true
         }
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        // do message.textField.resignFirstResponder()
-            //self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
     }
     
     override func didReceiveMemoryWarning() {
