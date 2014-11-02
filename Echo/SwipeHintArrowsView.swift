@@ -25,8 +25,8 @@ class SwipeHintArrowsView : UIView {
     let low: CGFloat = 0.2
     let high: CGFloat = 1.0
     
-    let inDur: NSTimeInterval = 1.0
-    let outDur: NSTimeInterval = 0.75
+    let inDur: NSTimeInterval = 0.75
+    let outDur: NSTimeInterval = 1.0
     
     var animating = false
     
@@ -54,13 +54,13 @@ class SwipeHintArrowsView : UIView {
             arrow3.center = CGPointMake(arrow2.center.x, arrow2.center.y + 10)
         }
         
+        arrow1.alpha = 0.0
+        arrow2.alpha = 0.0
+        arrow3.alpha = 0.0
+        
         self.addSubview(arrow1)
         self.addSubview(arrow2)
         self.addSubview(arrow3)
-        
-        arrow1.alpha = low
-        arrow2.alpha = low
-        arrow3.alpha = low
     }
     
     func animate() {
@@ -69,7 +69,7 @@ class SwipeHintArrowsView : UIView {
         }
     }
     
-    func animateFirst() {
+    private func animateFirst() {
         UIView.animateWithDuration(inDur, delay: 0.0, options: (.CurveEaseIn), animations: {
             self.arrow1.alpha = self.high
             }, completion: {done in
@@ -81,7 +81,7 @@ class SwipeHintArrowsView : UIView {
         })
     }
     
-    func animateSecond() {
+    private func animateSecond() {
         UIView.animateWithDuration(inDur, delay: 0.0, options: (.CurveEaseIn), animations: {
             self.arrow2.alpha = self.high
             }, completion: {done in
@@ -93,7 +93,7 @@ class SwipeHintArrowsView : UIView {
         })
     }
     
-    func animateThird() {
+    private func animateThird() {
         UIView.animateWithDuration(inDur, delay: 0.0, options: (.CurveEaseIn), animations: {
             self.arrow3.alpha = self.high
             }, completion: {done in

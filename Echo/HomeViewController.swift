@@ -10,24 +10,21 @@ import UIKit
 import CoreLocation
 
 let locationManager = CLLocationManager();
+let messageCenter = CGPointMake(CGRectGetMidX(UIScreen.mainScreen().bounds), CGRectGetMidY(UIScreen.mainScreen().bounds) + 20)
 
 class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationManagerDelegate {
 
-    let mainScroller = UIScrollView()
+    var mainScroller: UIScrollView!
     let lastPage = 1
     var bottomWrite: MessageView!
     var topRead: MessageView!
-    
-    var messageCenter: CGPoint!
-    
+        
     override func preferredStatusBarStyle() -> UIStatusBarStyle { return .LightContent }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        messageCenter = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds) + 20)
-        
-        //Configure locationManager
+        // Configure locationManager
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.delegate = self
@@ -45,11 +42,12 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         self.view.addSubview(splashView)
         
         
-        mainScroller.frame = self.view.bounds
+        mainScroller = UIScrollView(frame: self.view.bounds)
         mainScroller.contentSize = CGSizeMake(self.view.viewWidth, 3 * self.view.viewHeight)
         mainScroller.contentOffset = CGPointMake(0, self.view.viewHeight)
         mainScroller.pagingEnabled = true
         mainScroller.showsVerticalScrollIndicator = false
+        mainScroller.delegate = self
         self.view.addSubview(mainScroller)
         
         // Add Message Views to top and bottom view
@@ -62,23 +60,17 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         mainScroller.addSubview(topRead)
     }
 
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let page = (Int)(scrollView.contentOffset.y / scrollView.viewHeight)
         if page == 0 {
-            if topRead.mode == .ReadMessagePaused {
-                topRead.mode = .ReadMessagePull
-            }
-        } else if page == 0 || page == 2 {
-            //self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
+            let sub = SubScrollView(mode: .ReadMessagePull)
+            self.view.addSubview(sub)
+            topRead.hidden = true
+        } else if page == 2 {
+            let sub = SubScrollView(mode: .WriteMessage)
+            self.view.addSubview(sub)
+            bottomWrite.hidden = true
         }
-        // figure out what the user just did
-        // if "home" (ie are they returning from echoing a downloaded message or cancelling a written message?)
-        //   maybe keep a prevPage variable and compare to page?
-        // else if "pulled from server"
-        //   overlay SubScrollView and set visible dummy.hidden->true
-        // else if "writing a new message"
-        //   do message.textField.becomeFirstResponder()
-        
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
