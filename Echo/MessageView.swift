@@ -133,7 +133,13 @@ class MessageView : UIView {
             .responseJSON{(_, _, JSON, _) in
                 currentEcho = JSON
                 console.log(currentEcho)
-                //BASED ON currentEcho, UPDATE THE VIEWS
+                if currentEcho["contentType"] == 1{
+                    Alamofire.request(.GET, "http://echo2.me/uploads/get_echo", ["path": currentEcho["content"], encoding: .JSON ]).response{
+                        //UPDATE WITH IMAGE
+                    }
+                    return
+                }
+                //UPDATE VIEW WITH TEXT
         }
     }
     
