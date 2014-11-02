@@ -89,7 +89,7 @@ class MessageView : UIView {
             "type": currentEcho["contentType"],
             "echo_count": (Int)currentEcho["id"] + 1 ]
         
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{(request, response, data, error) in
             //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
         }
     }
@@ -123,7 +123,7 @@ class MessageView : UIView {
         }
         
         
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{(request, response, data, error) in
             //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
         }
     }
@@ -134,7 +134,7 @@ class MessageView : UIView {
                 currentEcho = JSON
                 console.log(currentEcho)
                 if currentEcho["contentType"] == 1{
-                    Alamofire.request(.GET, "http://echo2.me/uploads/get_echo", ["path": currentEcho["content"], encoding: .JSON ]).response{
+                    Alamofire.request(.GET, "http://echo2.me/uploads/get_echo", ["path": currentEcho["content"], encoding: .JSON ]).response{(request, response, data, error) in
                         //UPDATE WITH IMAGE
                     }
                     return
