@@ -28,6 +28,8 @@ class SwipeHintArrowsView : UIView {
     let inDur: NSTimeInterval = 1.0
     let outDur: NSTimeInterval = 0.75
     
+    var animating = false
+    
     init(type: ArrowType) {
         self.type = type
         super.init(frame: CGRectMake(0, 0, arrow1.viewWidth, arrow1.viewWidth + 20))
@@ -59,8 +61,12 @@ class SwipeHintArrowsView : UIView {
         arrow1.alpha = low
         arrow2.alpha = low
         arrow3.alpha = low
-        
-        animateFirst()
+    }
+    
+    func animate() {
+        if !animating {
+            animateFirst()
+        }
     }
     
     func animateFirst() {

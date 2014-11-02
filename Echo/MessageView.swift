@@ -14,22 +14,15 @@ class MessageView : UIView {
     
     var mode: MessageMode
     var bgImageView: UIImageView
-    var type: EchoType
-    var textContent: UILabel!
+    var textContent: UITextField!
     var imageContent: UIImage!
+    
+    
     //var currentEcho!
     
     init(mode: MessageMode) {
         bgImageView = UIImageView(image: UIImage(named: "message.png"))
         self.mode = mode
-        switch mode {
-        case .ReadMessagePaused:
-            self.type = .Read;
-        case .ReadMessagePull:
-            self.type = .Read;
-        case .WriteMessage:
-            self.type = .Write;
-        }
         super.init(frame: bgImageView.bounds)
     }
 
@@ -40,6 +33,11 @@ class MessageView : UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         self.addSubview(bgImageView)
+        
+        let inset: CGFloat = 10
+        textContent = UITextField(frame: CGRectMake(inset, 150 + inset, self.viewWidth - (2 * inset), self.viewHeight - 300 - (2 * inset)))
+        
+        
         switch mode {
             case .ReadMessagePaused: setupReadPullingMode();
             case .ReadMessagePull: setupReadPausedMode();
@@ -49,8 +47,7 @@ class MessageView : UIView {
     
     func setupReadPausedMode() {
         clearMessageView()
-        // Add message like "let go to pull down a message" in UILabel, etc.
-        var label = UILabel(frame: CGRect(x: self.center.x, y: self.center.y, width: 300, height: 100))
+        var label = UILabel(frame: CGRectMake(self.center.x, self.center.y, 300, 100))
         label.text = "Pull to get an echo."
         self.addSubview(label);
     }

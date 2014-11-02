@@ -20,12 +20,12 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
     
     var messageCenter: CGPoint!
     
-    // Vars for both message dummies (readPaused and write)
+    override func preferredStatusBarStyle() -> UIStatusBarStyle { return .LightContent }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        messageCenter = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds) + 40)
+        messageCenter = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds) + 20)
         
         //Configure locationManager
         locationManager.requestWhenInUseAuthorization()
@@ -37,7 +37,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         self.view.backgroundColor = UIColor(red: (46.0/255), green: (46.0/255), blue: (46.0/255), alpha: 1.0)
         
         let titleView = UIImageView(image: UIImage(named: "title.png"))
-        titleView.center = CGPointMake(CGRectGetMidX(self.view.bounds), 130)
+        titleView.center = CGPointMake(CGRectGetMidX(self.view.bounds), 70)
         self.view.addSubview(titleView)
         
         let splashView = UIImageView(image: UIImage(named: "splash.png"))
@@ -58,7 +58,7 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
         mainScroller.addSubview(bottomWrite)
         
         topRead = MessageView(mode: .ReadMessagePaused)
-        bottomWrite.center = CGPointMake(CGRectGetMidX(mainScroller.bounds), messageCenter.y)
+        topRead.center = CGPointMake(CGRectGetMidX(mainScroller.bounds), messageCenter.y)
         mainScroller.addSubview(topRead)
     }
 
@@ -68,8 +68,8 @@ class HomeViewController: UIViewController, UIScrollViewDelegate, CLLocationMana
             if topRead.mode == .ReadMessagePaused {
                 topRead.mode = .ReadMessagePull
             }
-        } else if page == 2 {
-            self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
+        } else if page == 0 || page == 2 {
+            //self.bottomWrite.textFIELDWHATEVERITSCALLED.becomeFirstResponder();
         }
         // figure out what the user just did
         // if "home" (ie are they returning from echoing a downloaded message or cancelling a written message?)
