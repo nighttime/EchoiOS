@@ -9,6 +9,7 @@
 
 import UIKit
 import CoreLocation
+import Alamofire
 
 class MessageView : UIView, UITextFieldDelegate {
     
@@ -102,7 +103,7 @@ class MessageView : UIView, UITextFieldDelegate {
         if keep {id = 0}
         else {id = 1}
         
-        var parameterz =
+        var parameterz: Dictionary<String, AnyObject> =
         [  "id" : currentEcho["id"],
             "deleted" : keep,
             "lat" : lat,
@@ -112,7 +113,7 @@ class MessageView : UIView, UITextFieldDelegate {
             "echo_count": ((currentEcho["id"] as Int) + 1)
         ]
         
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{(request, response, data, error) in
+        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: (parameterz as Dictionary<String, Any>), encoding: .JSON).response{(request, response, data, error) in
             //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
         }
     }
