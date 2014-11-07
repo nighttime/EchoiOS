@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 nighttime software. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 

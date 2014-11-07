@@ -11,18 +11,25 @@ import UIKit
 import CoreLocation
 import Alamofire
 
-class MessageView : UIView, UITextFieldDelegate {
+class MessageView : UIView, UITextViewDelegate {
     
     var mode: MessageMode
     var bgImageView: UIImageView
-    var textContent: UITextField!
+    var textView: UITextView!
+    var echoNumView: UITextField!
     var imageContent: UIImage?
-    var currentEcho:Dictionary<String,Any>
+    var params: [String:AnyObject]
+    
+    var message: String {
+        get {
+            return textView.text
+        }
+    }
     
     init(mode: MessageMode) {
         bgImageView = UIImageView(image: UIImage(named: "message.png"))
         self.mode = mode
-        self.currentEcho = [:]
+        self.params = [:]
         super.init(frame: bgImageView.bounds)
     }
     
@@ -35,144 +42,54 @@ class MessageView : UIView, UITextFieldDelegate {
         self.addSubview(bgImageView)
         
         let inset: CGFloat = 10
-        textContent = UITextField(frame: CGRectMake(inset, 70 + inset, self.viewWidth - (2 * inset), self.viewHeight - 140 - (2 * inset)))
-        textContent.font = UIFont(name: ArcherLight, size: 20)
-        textContent.textAlignment = .Center
-        textContent.textColor = UIColor(red: (138.0/255), green: (217.0/255), blue: (13.0/255), alpha: 1.0)
-        textContent.layer.shadowColor = UIColor.blackColor().CGColor
-        textContent.layer.shadowOpacity = 0.4
-        textContent.layer.shadowRadius = 3
-        textContent.layer.shadowOffset = CGSizeMake(0, 0)
+        textView = UITextView(frame: CGRectMake(inset, 70 + inset, self.viewWidth - (2 * inset), self.viewHeight - 140 - (2 * inset)))
+        textView.font = UIFont(name: ArcherLight, size: 22)
+        textView.textAlignment = .Center
+        textView.textColor = UIColor(red: (138.0/255), green: (217.0/255), blue: (13.0/255), alpha: 1.0)
+        textView.layer.shadowColor = UIColor.blackColor().CGColor
+        textView.layer.shadowOpacity = 0.4
+        textView.layer.shadowRadius = 3
+        textView.layer.shadowOffset = CGSizeMake(0, 0)
+        textView.backgroundColor = UIColor.clearColor()
         switch mode {
         case .ReadMessagePaused:
-            textContent.text = "Pull to read an echo."
+            textView.text = "Pull to read an echo."
+            textView.editable = false
         case .ReadMessagePull:
-            textContent.text = "Listening for echoes..."
+            textView.text = "Listening for echoes..."
+            textView.editable = false
         case .WriteMessage:
-            textContent.text = "Echo your own message."
+            textView.text = "Echo your own message."
+            textView.editable = true
         }
-        textContent.borderStyle = .None
         
-        self.addSubview(textContent)
+        self.addSubview(textView)
+        
+        
+        echoNumView = UITextField(frame: CGRectMake(inset * 2, textView.frame.origin.y + textView.viewHeight + (2 * inset), self.viewWidth - (4 * inset), 25))
+        echoNumView.font = UIFont(name: ArcherExtraLight, size: 18)
+        echoNumView.textAlignment = .Center
+        echoNumView.textColor = UIColor(red: (138.0/255), green: (217.0/255), blue: (13.0/255), alpha: 0.9)
+        echoNumView.layer.shadowColor = UIColor.blackColor().CGColor
+        echoNumView.layer.shadowOpacity = 0.4
+        echoNumView.layer.shadowRadius = 3
+        echoNumView.layer.shadowOffset = CGSizeMake(0, 0)
+        echoNumView.text = ""
+        self.addSubview(echoNumView)
     }
     
-    func setupReadPausedMode() {
-        //clearMessageView()
-    }
-    
-    func setupReadPullingMode() {
-        //clearMessageView()
-        getEchoAndUpdateView();
-    }
-    
-    func setupWriteMode() {
-        //clearMessageView()
+    func beginWriteMode() {
         UIView.animateWithDuration(0.15, delay: 0.0, options: (.CurveEaseOut), animations: {
-            self.textContent.alpha = 0.0
+            self.textView.alpha = 0.0
             }, completion: {done in
-                self.textContent.text = ""
-                self.textContent.alpha = 1.0
-                self.textContent.becomeFirstResponder()
+                self.textView.text = ""
+                self.textView.alpha = 1.0
+                self.textView.becomeFirstResponder()
         })
     }
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        if mode == .WriteMessage {
-            return true
-        }
-        return false
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        let newLength = (textView.text?.utf16Count ?? 0) + text.utf16Count - range.length
+        return newLength <= characterLimit
     }
-    
-    func uploadImageAndExitView(imageFile: NSData, parameters: Dictionary<String,Any>){
-        var path:String
-//        Alamofire.upload(.POST, "http://localhost:3000/echoPost/uploads", imageFile).responseJSON{(request, response, JSON, error) in
-//            
-//        }
-    }
-    
-    
-    func sendEchoBack(keep:Bool){
-        var location: CLLocationCoordinate2D = locationManager.location.coordinate;
-        let lat:Double = location.latitude;
-        let lon:Double = location.longitude;
-        let formatter = NSDateFormatter();
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
-        let time = formatter.stringFromDate(NSDate());
-        
-        var id: Int
-        if keep {id = 0}
-        else {id = 1}
-        
-        var parameterz: Dictionary<String, AnyObject> =
-        [  "id" : currentEcho["id"],
-            "deleted" : keep,
-            "lat" : lat,
-            "lon" : lon,
-            "datetime" : time,
-            "type": currentEcho["contentType"],
-            "echo_count": ((currentEcho["id"] as Int) + 1)
-        ]
-        
-        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: (parameterz as Dictionary<String, Any>), encoding: .JSON).response{(request, response, data, error) in
-            //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
-        }
-    }
-    
-    func sendNewEcho(){
-        //id, deleted, lat, long, datetime, echo_count (updated)
-        var location: CLLocationCoordinate2D = locationManager.location.coordinate;
-        let lat:Double = location.latitude;
-        let lon:Double = location.longitude;
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss";
-        let time = formatter.stringFromDate(NSDate());
-        
-
-        var parameterz: Dictionary<String, Any> =
-        [   "lat" : lat,
-            "lon" : lon,
-            "datetime" : time,
-            "echo_count" : 1
-        ]
-        
-        //IF THERE IS AN IMAGE, add the content in uploadImageAndExitView
-        if let image = imageContent {
-            let imageData = UIImageJPEGRepresentation(image, 1.0);
-            uploadImageAndExitView(imageData!, parameters: parameterz)
-            return //Above function exits the view for us
-        } else {
-            parameterz["echoContent"] = textContent.text
-            parameterz["contentType"] = 0
-        }
-        
-        
-//        Alamofire.request(.POST, "http://echo2.me/return_echo", parameters: parameterz, encoding: .JSON).response{(request, response, data, error) in
-//            //UPDATE VIEW: EXIT BACK TO MAIN SCREEN
-//        }
-    }
-    
-    func getEchoAndUpdateView(){
-//        Alamofire.request(.GET, "http://echo2.me/get_echo")
-//            .responseJSON{(_, _, JSON, _) in
-//                currentEcho = JSON
-//                console.log(currentEcho)
-//                if currentEcho["contentType"] == 1{
-//                    Alamofire.request(.GET, "http://echo2.me/uploads/get_echo", ["path": currentEcho["content"], encoding: .JSON ]).response{(request, response, data, error) in
-//                            imageContent = response
-//                    }
-//                    return
-//                }
-//                // currentEcho["content"]
-//                //UPDATE VIEW WITH TEXT
-//        }
-    }
-    
-    func clearMessageView() {
-        for s in self.subviews {
-            if !(s is UIImageView) || !(s is UITextField) {
-                s.removeFromSuperview()
-            }
-        }
-    }
-    
 }
